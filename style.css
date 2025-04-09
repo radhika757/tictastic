@@ -1,0 +1,12 @@
+:root{
+    --classicBoardBg : "bg-slate-100";
+    --classicCellBg: "bg-white";
+    --classicCellBorder: "border-slate-400";
+    --classicXColor: "text-indigo-600";
+    --classicOColor: "text-red-600";
+    --classicWinHighlight: "bg-amber-200";
+    --classicSwitchTrack: "bg-slate-300";
+    --classicSwitchThumb: "bg-white";
+    --classicSwitchActiveTrack: "bg-indigo-600";
+    --classicButtonBg: "bg-indigo-600 hover:bg-indigo-700";
+}
