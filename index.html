@@ -1,15 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <title>TicTasTic</title>
 </head>
-<body>
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Tic Tac Toe</h1>
+
+<body class="bg-black text-white p-4">
+  <div class="flex justify-center">
+    <main id="main-container" class="flex flex-col items-center justify-center p-10 w-[500px] h-full rounded-lg">
+      <div class="w-[400px] flex items-center justify-between mb-6">
+          <h1 class="text-2xl font-bold text-white">Tic Tac Toe</h1>
+          <dropdown class="ml-4">
+              <select id="theme-selector" class="px-2 py-1 border rounded w-[130px] text-white">
+                  <option value="neon" selected>Neon</option>
+                  <option value="retro">Retro</option>
+              </select>
+          </dropdown>
+      </div>
+
+      <div class="flex gap-2 mb-4 p-3 border border-2">
+        <div id="tabs-container" class="">
+          <div id="tabs-list" class="w-[400px] grid grid-cols-2 gap-4 justify-end">
+            <button id="tab-human" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="human">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-person">
+                <circle cx="8" cy="4" r="3"></circle>
+                <path d="M2 14a6 6 0 0 1 12 0"></path>
+              </svg>
+              <span>2 Players</span>
+            </button>
+            <button id="tab-computer" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="computer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-computer">
+                <rect x="2" y="3" width="12" height="8" rx="2" ry="2"></rect>
+                <line x1="6" y1="15" x2="10" y2="15"></line>
+                <line x1="8" y1="11" x2="8" y2="15"></line>
+              </svg>
+              <span>vs Computer</span>
+            </button>
+          </div>
+        </div>
     </div>
+
+      <div class="w-[400px] h-15 flex justify-between items-center mb-4 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-white">
+        <div class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
+            <span class={`text-xl font-bold ${currentTheme.xColor}`}>X</span>
+            <span class="font-medium">Player 1</span>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <span
+              class={`px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium ${isComputerThinking ? "animate-pulse" : ""}`}
+            >
+              Player 2's turn
+            </span>
+          </div>
+
+          <div
+            class={`flex items-center gap-2 p-2 rounded-md transition-all duration-300}
+          >
+            <span class="font-medium">Player 2</span>
+            <span class={`text-xl font-bold`}>O</span>
+          </div>
+        </div>
+
+      <div class="w-[400px] grid grid-cols-3 gap-3 mb-4">
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+          <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
+      </div>
+      <div class="mt-4 w-[400px]">
+          <button id="reset-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full">
+              Reset Game
+          </button>
+      </div>
+  </main>
+  </div>
+    
+
+
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
+
 </html>
