@@ -12,10 +12,15 @@ let currentMark = 'X'; // Start with X
 
 // Function to apply a theme
 function applyTheme(theme) {    
+  console.log(theme, 'theme');
+  
     const rootStyles = getComputedStyle(document.documentElement);
+    console.log(rootStyles, 'rootStyles');
     
     // Get CSS variable values for the selected theme
     const boardBg = rootStyles.getPropertyValue(`--${theme}BoardBg`).trim();
+    console.log(boardBg, 'boardBg');
+    
     const buttonBg = rootStyles.getPropertyValue(`--${theme}ButtonBg`).trim();
     const cellBorder = rootStyles.getPropertyValue(`--${theme}CellBorder`).trim(); 
     const cellBg = rootStyles.getPropertyValue(`--${theme}CellBg`).trim();
@@ -88,7 +93,6 @@ function checkDraw() {
 function handleCellClick(event) {
     const cell = event.target;
     if (cell.classList.contains('cells')) {
-        console.log('Cell clicked:', cell);
       // Return if the cell is already occupied or if the game is 
       // over or if its the computer's turn and computer is playing
          if (
@@ -101,7 +105,6 @@ function handleCellClick(event) {
         // Mark the cell as occupied
         cell.classList.add('occupied');
         cell.textContent = currentMark;
-       console.log(currentMark, 'currentMark');
         cell.style.pointerEvents = 'none'; // Disable further clicks on this cell
 
         // Check for a win or draw

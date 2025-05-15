@@ -11,6 +11,20 @@
     --neonSwitchActiveTrack: #ec4899; /* bg-pink-500 */
     --neonButtonBg: #7c3aed;          /* bg-purple-600 */
     --neonButtonHoverBg: #6d28d9;     /* hover:bg-purple-700 */
+
+    --retroBoardBg: #fef3c7;           /* bg-amber-100 */
+    --retroCellBg: #fffbeb;            /* bg-amber-50 */
+    --retroCellBorder: #fcd34d;        /* border-amber-300 */
+    --retroXColor: #b91c1c;            /* text-red-700 */
+    --retroOColor: #15803a;            /* text-green-700 */
+    --retroXSymbol: "✕";               /* symbol, keep as is */
+    --retroOSymbol: "◉";               /* symbol, keep as is */
+    --retroWinHighlight: #fde68a;      /* bg-amber-200 */
+    --retroSwitchTrack: #fcd34d;       /* bg-amber-300 */
+    --retroSwitchThumb: #ffffff;       /* bg-white */
+    --retroSwitchActiveTrack: #dc2626; /* bg-red-600 */
+    --retroButtonBg: #d97706;          /* bg-amber-600 */
+    --retroButtonHoverBg: #b45309;     /* hover:bg-amber-700 */
   }
   
   body {
