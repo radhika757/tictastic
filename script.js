@@ -11,16 +11,10 @@ let currentPlayer = 'human'; // Default to human player
 let currentMark = 'X'; // Start with X
 
 // Function to apply a theme
-function applyTheme(theme) {    
-  console.log(theme, 'theme');
-  
-    const rootStyles = getComputedStyle(document.documentElement);
-    console.log(rootStyles, 'rootStyles');
-    
+function applyTheme(theme) {      
+    const rootStyles = getComputedStyle(document.documentElement);    
     // Get CSS variable values for the selected theme
-    const boardBg = rootStyles.getPropertyValue(`--${theme}BoardBg`).trim();
-    console.log(boardBg, 'boardBg');
-    
+    const boardBg = rootStyles.getPropertyValue(`--${theme}BoardBg`).trim();    
     const buttonBg = rootStyles.getPropertyValue(`--${theme}ButtonBg`).trim();
     const cellBorder = rootStyles.getPropertyValue(`--${theme}CellBorder`).trim(); 
     const cellBg = rootStyles.getPropertyValue(`--${theme}CellBg`).trim();
@@ -109,7 +103,6 @@ function handleCellClick(event) {
 
         // Check for a win or draw
         if (checkWin()) {
-            console.log(`${currentPlayer} wins!`);
             alert(`${currentPlayer} wins!`);
             gameOver = true;
         } else if (checkDraw()) {
