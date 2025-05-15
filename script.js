@@ -83,6 +83,20 @@ function checkDraw() {
     return [...cells].every(cell => cell.classList.contains('occupied'));
 }
    
+// Function for resetting the game
+function resetGame() {
+    cells.forEach((cell) => {
+        cell.classList.remove('occupied');
+        cell.textContent = '';
+        cell.style.pointerEvents = 'auto'; // Re-enable clicks
+    });
+    gameOver = false;
+    gameMode = 'human'; // Reset to human mode
+    currentMark = 'X'; // Reset to X
+    isComputerTurn = false; // Reset computer turn
+    currentPlayer = 'human'; // Reset to human player
+}
+
 // handle cell click 
 function handleCellClick(event) {
     const cell = event.target;
@@ -122,7 +136,12 @@ function handleCellClick(event) {
     }
 }
 
-// Add event listeners to cells
+//Event listener for reset button
+resetButton.addEventListener('click', () => {
+    resetGame();
+});
+
+// Event listeners to cells
 cells.forEach((cell) => {
     cell.addEventListener('click', handleCellClick);
 }
