@@ -6,6 +6,8 @@ const tabsContainer = document.getElementById('tabs-container');
 const tabsTriggers = document.querySelectorAll('.tabs-trigger');
 const xplayer = document.getElementById('x-player');
 const oplayer = document.getElementById('o-player');
+const turnIndicator = document.getElementById('turn-indicator');
+let currentPlayerName = "Player 1"
 let gameMode = 'human'; // 'human' for 2 players, 'computer' for vs computer
 let gameOver = false;
 let isComputerTurn = false;
@@ -154,7 +156,6 @@ function handleCellClick(event) {
         cell.textContent = currentMark;
         cell.style.pointerEvents = 'none'; // Disable further clicks on this cell
         cell.style.color = currentMark === 'X' ? xColor : oColor;
-
         // Check for a win or draw
         if (checkWin()) {
             alert(`${currentPlayer} wins!`);
@@ -166,15 +167,31 @@ function handleCellClick(event) {
           // Switch turns
             if (gameMode === 'human') {
                 currentMark = currentMark === 'X' ? 'O' : 'X';
+                 currentPlayerName = currentPlayerName === 'Player 1' ? 'Player 2' : 'Player 1';
+                updateTurnIndicator();
             } else if (gameMode === 'computer') {
                 currentMark = currentMark === 'X' ? 'O' : 'X';
                 isComputerTurn = !isComputerTurn;
                 currentPlayer = currentPlayer === 'human' ? 'computer' : 'human';
+                updateTurnIndicator();
                 // computer move logic
             }
         }
     }
 }
+
+function updateTurnIndicator() {
+    if (gameMode === 'human') {
+        turnIndicator.innerText = currentPlayerName === 'Player 1'
+            ? "Player 1's Turn"
+            : "Player 2's Turn";
+    } else if (gameMode === 'computer') {
+        turnIndicator.innerText = currentPlayer === 'human'
+            ? "Your Turn"
+            : "Computer's Turn";
+    }
+}
+
 
 // Event Listener for setting the current player theme
 xplayer.addEventListener('click', () => {
@@ -182,6 +199,7 @@ xplayer.addEventListener('click', () => {
     currentPlayer = 'human';
     setCurrentPlayerTheme();
 });
+
 oplayer.addEventListener('click', () => {
     currentMark = 'O';
     currentPlayer = 'human';
@@ -196,6 +214,8 @@ resetButton.addEventListener('click', () => {
 // Event listeners to cells
 cells.forEach((cell) => {
     cell.addEventListener('click', handleCellClick);
+    cell.style.fontSize = '35px'; 
+    cell.style.fontWeight = '900';
 }
 );
 
@@ -210,6 +230,9 @@ tabsTriggers.forEach((tab) => {
   // Set default tab on page load
   document.addEventListener('DOMContentLoaded', () => {
     handleTabChange('human'); // Default to "2 Players" mode
+    const selectedTheme = themeSelector.value; // auto-grabs the selected one
+    applyTheme(selectedTheme);
+    updateTurnIndicator();
   });
 
 // Listen for changes in the select dropdown
@@ -217,9 +240,3 @@ themeSelector.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
     applyTheme(selectedTheme);
 });
-
-// Apply the default theme on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const selectedTheme = themeSelector.value; // auto-grabs the selected one
-    applyTheme(selectedTheme);
-}); 

@@ -46,15 +46,16 @@
 
       <div class="w-[400px] h-15 flex justify-between items-center mb-4 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-white">
         <div id="x-player" class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
-            <span class="text-xl font-bold">X</span>
+            <span class="font-bold" style="font-size: 20px">X</span>
             <span class="font-medium">Player 1</span>
         </div>
 
         <div class="flex items-center justify-center">
             <span
-              class={`px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium ${isComputerThinking ? "animate-pulse" : ""}`}
+              id="turn-indicator"
+              class="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium"
             >
-              Player 2's turn
+              Player 1's Turn
             </span>
         </div>
 
@@ -62,7 +63,7 @@
           id="o-player" class="yplayer flex items-center gap-2 p-2 rounded-md transition-all duration-300"
           >
             <span class="font-medium">Player 2</span>
-            <span class="text-xl font-bold">O</span>
+            <span class="font-bold" style="font-size: 20px">O</span>
         </div>
       </div>
 
