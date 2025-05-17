@@ -25,6 +25,20 @@
     --retroSwitchActiveTrack: #dc2626; /* bg-red-600 */
     --retroButtonBg: #d97706;          /* bg-amber-600 */
     --retroButtonHoverBg: #b45309;     /* hover:bg-amber-700 */
+
+    --harryPotterBoardBg: rgba(120, 53, 15, 0.2);   /* bg-amber-900/20 */
+    --harryPotterCellBg: #fffbeb;                   /* bg-amber-50 */
+    --harryPotterCellBorder: #78350f;               /* border-amber-700 */
+    --harryPotterXColor: #b91c1c;                   /* text-red-700 */
+    --harryPotterOColor: #ca8a04;                   /* text-yellow-600 */
+    --harryPotterXSymbol: "⚡";                      /* symbol, keep as is */
+    --harryPotterOSymbol: "✨";                      /* symbol, keep as is */
+    --harryPotterWinHighlight: #fde68a;             /* bg-amber-200 */
+    --harryPotterSwitchTrack: #78350f;              /* bg-amber-700 */
+    --harryPotterSwitchThumb: #fde047;              /* bg-yellow-300 */
+    --harryPotterSwitchActiveTrack: #991b1b;        /* bg-red-700 */
+    --harryPotterButtonBg: #991b1b;                 /* bg-red-800 */
+    --harryPotterButtonHoverBg: #7f1d1d; 
   }
   
   body {

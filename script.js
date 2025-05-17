@@ -129,18 +129,18 @@ function resetGame() {
     currentMark = 'X'; // Reset to X
     isComputerTurn = false; // Reset computer turn
     currentPlayer = 'human'; // Reset to human player
+    currentPlayerName = "Player 1"; // Reset player name
+    turnIndicator.innerText = "Player 1's Turn"; // Reset turn indicator
 }
 
 // handle cell click 
 function handleCellClick(event) {
     const theme = themeSelector.value;
     const rootStyles = getComputedStyle(document.documentElement);
-    const cell = event.target;
     const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
     const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
-    xplayer.style.color = xColor;
-    oplayer.style.color = oColor;
-
+    
+    const cell = event.target;
     if (cell.classList.contains('cells')) {
       // Return if the cell is already occupied or if the game is 
       // over or if its the computer's turn and computer is playing
@@ -158,10 +158,8 @@ function handleCellClick(event) {
         cell.style.color = currentMark === 'X' ? xColor : oColor;
         // Check for a win or draw
         if (checkWin()) {
-            alert(`${currentPlayer} wins!`);
             gameOver = true;
         } else if (checkDraw()) {
-            alert('It\'s a draw!');
             gameOver = true;
         } else {
           // Switch turns
@@ -229,6 +227,12 @@ tabsTriggers.forEach((tab) => {
   
   // Set default tab on page load
   document.addEventListener('DOMContentLoaded', () => {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
     handleTabChange('human'); // Default to "2 Players" mode
     const selectedTheme = themeSelector.value; // auto-grabs the selected one
     applyTheme(selectedTheme);

@@ -14,12 +14,15 @@
     <main id="main-container" class="flex flex-col items-center justify-center p-10 w-[500px] h-full rounded-lg">
       <div class="w-[400px] flex items-center justify-between mb-6">
           <h1 class="text-2xl font-bold text-white">Tic Tac Toe</h1>
-          <dropdown class="ml-4">
-              <select id="theme-selector" class="px-2 py-1 border rounded w-[130px] text-white">
+          <div class="ml-4">
+              <select id="theme-selector" class="px-2 py-1 border rounded w-[130px] text-white"
+              style="background-color: black; padding: 6px; font-weight: 600; border-radius: 5px; border-color: gray;"
+              >
                   <option value="neon" selected>Neon</option>
                   <option value="retro">Retro</option>
+                  <option value="harryPotter">Harry Potter</option>
               </select>
-          </dropdown>
+          </div>
       </div>
 
       <div class="flex gap-2 mb-4 p-3 border border-2">
@@ -79,7 +82,7 @@
           <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
       </div>
       <div class="mt-4 w-[400px]">
-          <button id="reset-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full cursor-pointer">
+          <button id="reset-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full cursor-pointer font-bold">
               Reset Game
           </button>
       </div>
