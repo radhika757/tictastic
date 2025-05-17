@@ -45,26 +45,26 @@
     </div>
 
       <div class="w-[400px] h-15 flex justify-between items-center mb-4 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-white">
-        <div class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
-            <span class={`text-xl font-bold ${currentTheme.xColor}`}>X</span>
+        <div id="x-player" class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
+            <span class="text-xl font-bold">X</span>
             <span class="font-medium">Player 1</span>
-          </div>
+        </div>
 
-          <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center">
             <span
               class={`px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium ${isComputerThinking ? "animate-pulse" : ""}`}
             >
               Player 2's turn
             </span>
-          </div>
+        </div>
 
-          <div
-            class={`flex items-center gap-2 p-2 rounded-md transition-all duration-300}
+        <div
+          id="o-player" class="yplayer flex items-center gap-2 p-2 rounded-md transition-all duration-300"
           >
             <span class="font-medium">Player 2</span>
-            <span class={`text-xl font-bold`}>O</span>
-          </div>
+            <span class="text-xl font-bold">O</span>
         </div>
+      </div>
 
       <div class="w-[400px] grid grid-cols-3 gap-3 mb-4">
           <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>

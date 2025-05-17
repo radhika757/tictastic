@@ -4,11 +4,43 @@ const resetButton = document.getElementById('reset-button');
 const cells = document.querySelectorAll('.cells'); 
 const tabsContainer = document.getElementById('tabs-container');
 const tabsTriggers = document.querySelectorAll('.tabs-trigger');
+const xplayer = document.getElementById('x-player');
+const oplayer = document.getElementById('o-player');
 let gameMode = 'human'; // 'human' for 2 players, 'computer' for vs computer
 let gameOver = false;
 let isComputerTurn = false;
 let currentPlayer = 'human'; // Default to human player
 let currentMark = 'X'; // Start with X
+
+// Function to set the theme of current player.
+function setCurrentPlayerTheme() {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
+
+    // Remove previous styles
+    xplayer.style.backgroundColor = '';
+    xplayer.style.color = '';
+    oplayer.style.backgroundColor = '';
+    oplayer.style.color = '';
+
+    // Apply highlight to the current player
+    if (currentMark === 'X') {
+        xplayer.style.backgroundColor = activeBg;
+        xplayer.style.color = activeText;
+        oplayer.style.backgroundColor = '';
+        oplayer.style.color = '';
+    } else {
+        oplayer.style.backgroundColor = activeBg;
+        oplayer.style.color = activeText;
+        xplayer.style.backgroundColor = '';
+        xplayer.style.color = '';
+    }
+}
 
 // Function to apply a theme
 function applyTheme(theme) {      
@@ -99,7 +131,14 @@ function resetGame() {
 
 // handle cell click 
 function handleCellClick(event) {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
     const cell = event.target;
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
+
     if (cell.classList.contains('cells')) {
       // Return if the cell is already occupied or if the game is 
       // over or if its the computer's turn and computer is playing
@@ -114,6 +153,7 @@ function handleCellClick(event) {
         cell.classList.add('occupied');
         cell.textContent = currentMark;
         cell.style.pointerEvents = 'none'; // Disable further clicks on this cell
+        cell.style.color = currentMark === 'X' ? xColor : oColor;
 
         // Check for a win or draw
         if (checkWin()) {
@@ -135,6 +175,18 @@ function handleCellClick(event) {
         }
     }
 }
+
+// Event Listener for setting the current player theme
+xplayer.addEventListener('click', () => {
+    currentMark = 'X';
+    currentPlayer = 'human';
+    setCurrentPlayerTheme();
+});
+oplayer.addEventListener('click', () => {
+    currentMark = 'O';
+    currentPlayer = 'human';
+    setCurrentPlayerTheme();
+});
 
 //Event listener for reset button
 resetButton.addEventListener('click', () => {
