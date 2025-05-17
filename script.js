@@ -4,11 +4,45 @@ const resetButton = document.getElementById('reset-button');
 const cells = document.querySelectorAll('.cells'); 
 const tabsContainer = document.getElementById('tabs-container');
 const tabsTriggers = document.querySelectorAll('.tabs-trigger');
+const xplayer = document.getElementById('x-player');
+const oplayer = document.getElementById('o-player');
+const turnIndicator = document.getElementById('turn-indicator');
+let currentPlayerName = "Player 1"
 let gameMode = 'human'; // 'human' for 2 players, 'computer' for vs computer
 let gameOver = false;
 let isComputerTurn = false;
 let currentPlayer = 'human'; // Default to human player
 let currentMark = 'X'; // Start with X
+
+// Function to set the theme of current player.
+function setCurrentPlayerTheme() {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
+
+    // Remove previous styles
+    xplayer.style.backgroundColor = '';
+    xplayer.style.color = '';
+    oplayer.style.backgroundColor = '';
+    oplayer.style.color = '';
+
+    // Apply highlight to the current player
+    if (currentMark === 'X') {
+        xplayer.style.backgroundColor = activeBg;
+        xplayer.style.color = activeText;
+        oplayer.style.backgroundColor = '';
+        oplayer.style.color = '';
+    } else {
+        oplayer.style.backgroundColor = activeBg;
+        oplayer.style.color = activeText;
+        xplayer.style.backgroundColor = '';
+        xplayer.style.color = '';
+    }
+}
 
 // Function to apply a theme
 function applyTheme(theme) {      
@@ -83,9 +117,30 @@ function checkDraw() {
     return [...cells].every(cell => cell.classList.contains('occupied'));
 }
    
+// Function for resetting the game
+function resetGame() {
+    cells.forEach((cell) => {
+        cell.classList.remove('occupied');
+        cell.textContent = '';
+        cell.style.pointerEvents = 'auto'; // Re-enable clicks
+    });
+    gameOver = false;
+    gameMode = 'human'; // Reset to human mode
+    currentMark = 'X'; // Reset to X
+    isComputerTurn = false; // Reset computer turn
+    currentPlayer = 'human'; // Reset to human player
+}
+
 // handle cell click 
 function handleCellClick(event) {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
     const cell = event.target;
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
+
     if (cell.classList.contains('cells')) {
       // Return if the cell is already occupied or if the game is 
       // over or if its the computer's turn and computer is playing
@@ -100,7 +155,7 @@ function handleCellClick(event) {
         cell.classList.add('occupied');
         cell.textContent = currentMark;
         cell.style.pointerEvents = 'none'; // Disable further clicks on this cell
-
+        cell.style.color = currentMark === 'X' ? xColor : oColor;
         // Check for a win or draw
         if (checkWin()) {
             alert(`${currentPlayer} wins!`);
@@ -112,19 +167,55 @@ function handleCellClick(event) {
           // Switch turns
             if (gameMode === 'human') {
                 currentMark = currentMark === 'X' ? 'O' : 'X';
+                 currentPlayerName = currentPlayerName === 'Player 1' ? 'Player 2' : 'Player 1';
+                updateTurnIndicator();
             } else if (gameMode === 'computer') {
                 currentMark = currentMark === 'X' ? 'O' : 'X';
                 isComputerTurn = !isComputerTurn;
                 currentPlayer = currentPlayer === 'human' ? 'computer' : 'human';
+                updateTurnIndicator();
                 // computer move logic
             }
         }
     }
 }
 
-// Add event listeners to cells
+function updateTurnIndicator() {
+    if (gameMode === 'human') {
+        turnIndicator.innerText = currentPlayerName === 'Player 1'
+            ? "Player 1's Turn"
+            : "Player 2's Turn";
+    } else if (gameMode === 'computer') {
+        turnIndicator.innerText = currentPlayer === 'human'
+            ? "Your Turn"
+            : "Computer's Turn";
+    }
+}
+
+
+// Event Listener for setting the current player theme
+xplayer.addEventListener('click', () => {
+    currentMark = 'X';
+    currentPlayer = 'human';
+    setCurrentPlayerTheme();
+});
+
+oplayer.addEventListener('click', () => {
+    currentMark = 'O';
+    currentPlayer = 'human';
+    setCurrentPlayerTheme();
+});
+
+//Event listener for reset button
+resetButton.addEventListener('click', () => {
+    resetGame();
+});
+
+// Event listeners to cells
 cells.forEach((cell) => {
     cell.addEventListener('click', handleCellClick);
+    cell.style.fontSize = '35px'; 
+    cell.style.fontWeight = '900';
 }
 );
 
@@ -139,6 +230,9 @@ tabsTriggers.forEach((tab) => {
   // Set default tab on page load
   document.addEventListener('DOMContentLoaded', () => {
     handleTabChange('human'); // Default to "2 Players" mode
+    const selectedTheme = themeSelector.value; // auto-grabs the selected one
+    applyTheme(selectedTheme);
+    updateTurnIndicator();
   });
 
 // Listen for changes in the select dropdown
@@ -146,9 +240,3 @@ themeSelector.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
     applyTheme(selectedTheme);
 });
-
-// Apply the default theme on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const selectedTheme = themeSelector.value; // auto-grabs the selected one
-    applyTheme(selectedTheme);
-}); 
