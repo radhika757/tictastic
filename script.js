@@ -6,6 +6,8 @@ const tabsContainer = document.getElementById('tabs-container');
 const tabsTriggers = document.querySelectorAll('.tabs-trigger');
 const xplayer = document.getElementById('x-player');
 const oplayer = document.getElementById('o-player');
+const player1 = document.getElementById('play1');
+const player2 = document.getElementById('play2');
 const turnIndicator = document.getElementById('turn-indicator');
 let currentPlayerName = "Player 1"
 let gameMode = 'human'; // 'human' for 2 players, 'computer' for vs computer
@@ -76,24 +78,31 @@ function applyTheme(theme) {
 function handleTabChange(selectedValue) {
     gameMode = selectedValue;
     tabsTriggers.forEach((tab) => {
-      if (tab.dataset.value === selectedValue) {
-        tab.classList.add('bg-blue-500', 'text-white'); // Active tab styles
-        tab.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-      } else {
-        tab.classList.remove('bg-blue-500', 'text-white');
-        tab.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
-      }
+        if (tab.dataset.value === selectedValue) {
+            tab.classList.add('bg-black', 'text-white'); // Active tab styles
+            tab.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+            tab.style.backgroundColor = '#000'; // Ensure active is black
+            tab.style.color = '#fff';
+        } else {
+            tab.classList.remove('bg-black', 'text-white', 'bg-gray-200', 'dark:bg-gray-700');
+            tab.style.backgroundColor = '#303030'; // Inactive background
+            tab.style.color = '#686868';           // Inactive text
+        }
     });
-  
+
     // Perform actions based on the selected tab
     if (selectedValue === 'human') {
-      console.log('2 Players mode selected');
-      // Add functionality for 2 Players mode
+        console.log('2 Players mode selected');
+        gameMode = 'human';
+        // Add functionality for 2 Players mode
     } else if (selectedValue === 'computer') {
-      console.log('vs Computer mode selected');
-      // Add functionality for vs Computer mode
+        // Functionality for Computer mode
+        gameMode = 'computer';
+        player1.style.innerText = 'You';
+        player2.style.innerText = 'Computer';
     }
-  }
+    resetGame();
+}
 
 // Function to check for a win
 function checkWin() {
