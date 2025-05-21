@@ -70,8 +70,6 @@ function applyTheme(theme) {
         cell.style.border = `2px solid ${cellBorder}`;
         cell.style.backgroundColor = cellBg; 
     });
-    // cells.onmouseover = () => (cells.style.borderColor = buttonHoverBg);
-    // cells.onmouseout = () => (cells.style.borderColor = buttonBg);
 }
 
 // Function to handle tab change
@@ -92,16 +90,19 @@ function handleTabChange(selectedValue) {
 
     // Perform actions based on the selected tab
     if (selectedValue === 'human') {
-        console.log('2 Players mode selected');
-        gameMode = 'human';
+        player1.innerText = 'Player 1';
+        player2.innerText = 'Player 2';
+        currentPlayerName = "Player 1";
+        currentPlayer = 'human';
         // Add functionality for 2 Players mode
     } else if (selectedValue === 'computer') {
         // Functionality for Computer mode
-        gameMode = 'computer';
-        player1.style.innerText = 'You';
-        player2.style.innerText = 'Computer';
+         player1.innerText = 'You';
+        player2.innerText = 'Computer';
+        currentPlayer = 'human';
     }
     resetGame();
+    updateTurnIndicator(); 
 }
 
 // Function to check for a win
@@ -134,12 +135,10 @@ function resetGame() {
         cell.style.pointerEvents = 'auto'; // Re-enable clicks
     });
     gameOver = false;
-    gameMode = 'human'; // Reset to human mode
     currentMark = 'X'; // Reset to X
     isComputerTurn = false; // Reset computer turn
     currentPlayer = 'human'; // Reset to human player
-    currentPlayerName = "Player 1"; // Reset player name
-    turnIndicator.innerText = "Player 1's Turn"; // Reset turn indicator
+    updateTurnIndicator();
 }
 
 // handle cell click 
@@ -252,4 +251,5 @@ tabsTriggers.forEach((tab) => {
 themeSelector.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
     applyTheme(selectedTheme);
+    setCurrentPlayerTheme();
 });
