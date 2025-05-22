@@ -23,26 +23,28 @@ function setCurrentPlayerTheme() {
     const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
     const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
 
+    // Remove previous background highlights only, NOT the color!
+    xplayer.style.backgroundColor = '';
+    oplayer.style.backgroundColor = '';
+
+    // Set the color for X and O player labels
     xplayer.style.color = xColor;
     oplayer.style.color = oColor;
 
-    // Remove previous styles
-    xplayer.style.backgroundColor = '';
-    xplayer.style.color = '';
-    oplayer.style.backgroundColor = '';
-    oplayer.style.color = '';
+    // Highlight the current player
+    const activeBg = '#222'; // or use a theme variable if you have one
+    const activeText = '#fff';
 
-    // Apply highlight to the current player
     if (currentMark === 'X') {
         xplayer.style.backgroundColor = activeBg;
         xplayer.style.color = activeText;
         oplayer.style.backgroundColor = '';
-        oplayer.style.color = '';
+        oplayer.style.color = oColor;
     } else {
         oplayer.style.backgroundColor = activeBg;
         oplayer.style.color = activeText;
         xplayer.style.backgroundColor = '';
-        xplayer.style.color = '';
+        xplayer.style.color = xColor;
     }
 }
 
@@ -181,6 +183,11 @@ function handleCellClick(event) {
                 currentPlayer = currentPlayer === 'human' ? 'computer' : 'human';
                 updateTurnIndicator();
                 // computer move logic
+                
+                // short delay for computer move 
+                setTimeout(() => {
+                    makeComputerMove();
+                }, 1000)
             }
         }
     }
@@ -198,6 +205,75 @@ function updateTurnIndicator() {
     }
 }
 
+function setCurrentPlayerTheme() {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const xColor = rootStyles.getPropertyValue(`--${theme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+
+    // Remove previous background highlights only, NOT the color!
+    xplayer.style.backgroundColor = '';
+    oplayer.style.backgroundColor = '';
+
+    // Set the color for X and O player labels
+    xplayer.style.color = xColor;
+    oplayer.style.color = oColor;
+
+    // Highlight the current player
+    const activeBg = '#222'; // or use a theme variable if you have one
+    const activeText = '#fff';
+
+    if (currentMark === 'X') {
+        xplayer.style.backgroundColor = activeBg;
+        xplayer.style.color = activeText;
+        oplayer.style.backgroundColor = '';
+        oplayer.style.color = oColor;
+    } else {
+        oplayer.style.backgroundColor = activeBg;
+        oplayer.style.color = activeText;
+        xplayer.style.backgroundColor = '';
+        xplayer.style.color = xColor;
+    }
+}
+
+function makeComputerMove() {
+    if (gameOver) return;
+
+    // Find all empty cells
+    const emptyCells = Array.from(cells).filter(cell => !cell.classList.contains('occupied'));
+    if (emptyCells.length === 0) return;
+
+    // Pick a random empty cell
+    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    // Get theme colors
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+
+    // Mark the cell for the computer
+    randomCell.classList.add('occupied');
+    randomCell.textContent = 'O';
+    randomCell.style.pointerEvents = 'none';
+    randomCell.style.color = oColor;
+
+    // Check for win/draw
+    if (checkWin()) {
+        gameOver = true;
+        updateTurnIndicator();
+        return;
+    } else if (checkDraw()) {
+        gameOver = true;
+        updateTurnIndicator();
+        return;
+    }
+
+    // Switch back to human
+    currentMark = 'X';
+    isComputerTurn = false;
+    currentPlayer = 'human';
+    updateTurnIndicator();
+}
 
 // Event Listener for setting the current player theme
 xplayer.addEventListener('click', () => {
@@ -252,4 +328,14 @@ themeSelector.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
     applyTheme(selectedTheme);
     setCurrentPlayerTheme();
+
+    // Update color of all occupied cells
+    const rootStyles = getComputedStyle(document.documentElement);
+    const xColor = rootStyles.getPropertyValue(`--${selectedTheme}XColor`).trim();
+    const oColor = rootStyles.getPropertyValue(`--${selectedTheme}OColor`).trim();
+    cells.forEach((cell) => {
+        if (cell.classList.contains('occupied')) {
+            cell.style.color = cell.textContent === 'X' ? xColor : oColor;
+        }
+    });
 });
