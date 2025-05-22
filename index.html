@@ -9,30 +9,32 @@
     <title>TicTasTic</title>
 </head>
 
-<body class="bg-black text-white p-4">
+<body class="bg-black text-[#D8D8D8] p-4">
   <div class="flex justify-center">
     <main id="main-container" class="flex flex-col items-center justify-center p-10 w-[500px] h-full rounded-lg">
       <div class="w-[400px] flex items-center justify-between mb-6">
-          <h1 class="text-2xl font-bold text-white">Tic Tac Toe</h1>
-          <dropdown class="ml-4">
-              <select id="theme-selector" class="px-2 py-1 border rounded w-[130px] text-white">
+          <h1 class="text-2xl font-bold text-[#D8D8D8]">Tic Tac Toe</h1>
+          <div class="ml-4">
+              <select id="theme-selector" class="px-2 py-1 border rounded w-[150px] text-[#D8D8D8]"
+              style="background-color: black; padding: 6px; font-weight: 600; border-radius: 5px; border-color: gray;"
+              >
                   <option value="neon" selected>Neon</option>
-                  <option value="retro">Retro</option>
+                  <option value="monochrome">MonoChrome</option>
               </select>
-          </dropdown>
+          </div>
       </div>
 
-      <div class="flex gap-2 mb-4 p-3 border border-2">
+      <div class="flex gap-2 mb-4 p-1.5 rounded-sm bg-[#303030]">
         <div id="tabs-container" class="">
           <div id="tabs-list" class="w-[400px] grid grid-cols-2 gap-4 justify-end">
-            <button id="tab-human" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="human">
+            <button id="tab-human" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-sm hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="human">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-person">
                 <circle cx="8" cy="4" r="3"></circle>
                 <path d="M2 14a6 6 0 0 1 12 0"></path>
               </svg>
               <span>2 Players</span>
             </button>
-            <button id="tab-computer" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="computer">
+            <button id="tab-computer" class="tabs-trigger flex items-center gap-2 px-4 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-sm hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-value="computer">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-computer">
                 <rect x="2" y="3" width="12" height="8" rx="2" ry="2"></rect>
                 <line x1="6" y1="15" x2="10" y2="15"></line>
@@ -44,27 +46,28 @@
         </div>
     </div>
 
-      <div class="w-[400px] h-15 flex justify-between items-center mb-4 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-white">
-        <div class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
-            <span class={`text-xl font-bold ${currentTheme.xColor}`}>X</span>
-            <span class="font-medium">Player 1</span>
-          </div>
-
-          <div class="flex items-center justify-center">
-            <span
-              class={`px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium ${isComputerThinking ? "animate-pulse" : ""}`}
-            >
-              Player 2's turn
-            </span>
-          </div>
-
-          <div
-            class={`flex items-center gap-2 p-2 rounded-md transition-all duration-300}
-          >
-            <span class="font-medium">Player 2</span>
-            <span class={`text-xl font-bold`}>O</span>
-          </div>
+      <div class="w-[400px] h-15 flex justify-between items-center mb-4 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-[#D8D8D8]">
+        <div id="x-player" class="flex items-center gap-2 p-2 rounded-md transition-all duration-300">
+            <span class="font-bold" style="font-size: 20px">X</span>
+            <span id="play1" class="font-medium">Player 1</span>
         </div>
+
+        <div class="flex items-center justify-center">
+            <span
+              id="turn-indicator"
+              class="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-xs font-medium"
+            >
+              Player 1's Turn
+            </span>
+        </div>
+
+        <div
+          id="o-player" class="yplayer flex items-center gap-2 p-2 rounded-md transition-all duration-300"
+          >
+            <span id="play2" class="font-medium">Player 2</span>
+            <span class="font-bold" style="font-size: 20px">O</span>
+        </div>
+      </div>
 
       <div class="w-[400px] grid grid-cols-3 gap-3 mb-4">
           <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
@@ -78,7 +81,7 @@
           <div class="cells w-28 h-28 bg-gray-200 flex items-center justify-center text-2xl cursor-pointer"></div>
       </div>
       <div class="mt-4 w-[400px]">
-          <button id="reset-button" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full">
+          <button id="reset-button" class="px-4 py-2 text-[#D8D8D8] rounded w-full cursor-pointer font-bold">
               Reset Game
           </button>
       </div>

@@ -12,19 +12,19 @@
     --neonButtonBg: #7c3aed;          /* bg-purple-600 */
     --neonButtonHoverBg: #6d28d9;     /* hover:bg-purple-700 */
 
-    --retroBoardBg: #fef3c7;           /* bg-amber-100 */
-    --retroCellBg: #fffbeb;            /* bg-amber-50 */
-    --retroCellBorder: #fcd34d;        /* border-amber-300 */
-    --retroXColor: #b91c1c;            /* text-red-700 */
-    --retroOColor: #15803a;            /* text-green-700 */
-    --retroXSymbol: "✕";               /* symbol, keep as is */
-    --retroOSymbol: "◉";               /* symbol, keep as is */
-    --retroWinHighlight: #fde68a;      /* bg-amber-200 */
-    --retroSwitchTrack: #fcd34d;       /* bg-amber-300 */
-    --retroSwitchThumb: #ffffff;       /* bg-white */
-    --retroSwitchActiveTrack: #dc2626; /* bg-red-600 */
-    --retroButtonBg: #d97706;          /* bg-amber-600 */
-    --retroButtonHoverBg: #b45309;     /* hover:bg-amber-700 */
+    --monochromeBoardBg: #ffffff;           /* bg-white */
+    --monochromeCellBg: #f9fafb;            /* bg-gray-50 */
+    --monochromeCellBorder: #d1d5db;        /* border-gray-300 */
+    --monochromeXColor: #000000;            /* text-black */
+    --monochromeOColor: #374151;            /* text-gray-700 */
+    --monochromeXSymbol: "✕";               /* symbol, keep as is */
+    --monochromeOSymbol: "○";               /* symbol, keep as is */
+    --monochromeWinHighlight: #e5e7eb;      /* bg-gray-200 */
+    --monochromeSwitchTrack: #d1d5db;       /* bg-gray-300 */
+    --monochromeSwitchThumb: #ffffff;       /* bg-white */
+    --monochromeSwitchActiveTrack: #374151; /* bg-gray-700 */
+    --monochromeButtonBg: #000000;          /* bg-black */
+    --monochromeButtonHoverBg: #111827;     /* hover:bg-gray-900 */
   }
   
   body {
