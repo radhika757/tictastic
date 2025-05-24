@@ -68,10 +68,13 @@ function applyTheme(theme) {
     resetButton.onmouseout = () => (resetButton.style.backgroundColor = buttonBg);
 
       // Update the cell styles
-      cells.forEach((cell) => {
-        cell.style.border = `2px solid ${cellBorder}`;
-        cell.style.backgroundColor = cellBg; 
-    });
+    cells.forEach((cell) => {
+    // Only update background if not currently highlighted as a win
+    if (!cell.classList.contains('win')) {
+        cell.style.backgroundColor = cellBg;
+    }
+    cell.style.border = `2px solid ${cellBorder}`;
+});
 }
 
 // Function to handle tab change
@@ -115,14 +118,19 @@ function checkWin() {
         [0, 4, 8], [2, 4, 6] // Diagonals
     ];
 
-    return winningCombinations.some(combination => {
+    for (const combination of winningCombinations) {
         const [a, b, c] = combination;
-        return cells[a].classList.contains('occupied') && 
-               cells[b].classList.contains('occupied') && 
-               cells[c].classList.contains('occupied') &&
-               cells[a].textContent === cells[b].textContent &&
-               cells[a].textContent === cells[c].textContent;
-    });
+        if (
+            cells[a].classList.contains('occupied') &&
+            cells[b].classList.contains('occupied') &&
+            cells[c].classList.contains('occupied') &&
+            cells[a].textContent === cells[b].textContent &&
+            cells[a].textContent === cells[c].textContent
+        ) {
+            return combination; // Return the winning cells
+        }
+    }
+    return null;
 }
 // Function to check for a draw
 function checkDraw() {
@@ -131,7 +139,13 @@ function checkDraw() {
    
 // Function for resetting the game
 function resetGame() {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const cellBg = rootStyles.getPropertyValue(`--${theme}CellBg`).trim();
+
     cells.forEach((cell) => {
+        cell.classList.remove('win');
+        cell.style.backgroundColor = cellBg; // Set to theme cell background
         cell.classList.remove('occupied');
         cell.textContent = '';
         cell.style.pointerEvents = 'auto'; // Re-enable clicks
@@ -141,6 +155,16 @@ function resetGame() {
     isComputerTurn = false; // Reset computer turn
     currentPlayer = 'human'; // Reset to human player
     updateTurnIndicator();
+}
+
+function highlightWinningCells(combo) {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const winHighlight = rootStyles.getPropertyValue(`--${theme}WinHighlight`).trim();
+
+    combo.forEach(index => {
+        cells[index].style.backgroundColor = winHighlight;
+    });
 }
 
 // handle cell click 
@@ -190,6 +214,12 @@ function handleCellClick(event) {
                 }, 1000)
             }
         }
+        const winCombo = checkWin();
+if (winCombo) {
+    gameOver = true;
+    highlightWinningCells(winCombo);
+    // ...any other win logic
+}
     }
 }
 
