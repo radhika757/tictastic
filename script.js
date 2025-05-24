@@ -139,9 +139,13 @@ function checkDraw() {
    
 // Function for resetting the game
 function resetGame() {
+    const theme = themeSelector.value;
+    const rootStyles = getComputedStyle(document.documentElement);
+    const cellBg = rootStyles.getPropertyValue(`--${theme}CellBg`).trim();
+
     cells.forEach((cell) => {
         cell.classList.remove('win');
-        cell.style.backgroundColor = ''; 
+        cell.style.backgroundColor = cellBg; // Set to theme cell background
         cell.classList.remove('occupied');
         cell.textContent = '';
         cell.style.pointerEvents = 'auto'; // Re-enable clicks
