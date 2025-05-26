@@ -270,40 +270,89 @@ function setCurrentPlayerTheme() {
 function makeComputerMove() {
     if (gameOver) return;
 
-    // Find all empty cells
-    const emptyCells = Array.from(cells).filter(cell => !cell.classList.contains('occupied'));
-    if (emptyCells.length === 0) return;
+    // Helper to get the board as an array of 'X', 'O', or ''
+    const board = Array.from(cells).map(cell => cell.textContent);
 
-    // Pick a random empty cell
-    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    // All possible winning combinations
+    const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6] // Diagonals
+    ];
 
-    // Get theme colors
-    const theme = themeSelector.value;
-    const rootStyles = getComputedStyle(document.documentElement);
-    const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+    // 1. Try to win
+    for (const combo of winningCombinations) {
+        const [a, b, c] = combo;
+        const values = [board[a], board[b], board[c]];
+        if (values.filter(v => v === 'O').length === 2 && values.includes('')) {
+            const emptyIndex = combo[values.indexOf('')];
+            playAtIndex(emptyIndex);
+            return;
+        }
+    }
 
-    // Mark the cell for the computer
-    randomCell.classList.add('occupied');
-    randomCell.textContent = 'O';
-    randomCell.style.pointerEvents = 'none';
-    randomCell.style.color = oColor;
+    // 2. Block the player from winning
+    for (const combo of winningCombinations) {
+        const [a, b, c] = combo;
+        const values = [board[a], board[b], board[c]];
+        if (values.filter(v => v === 'X').length === 2 && values.includes('')) {
+            const emptyIndex = combo[values.indexOf('')];
+            playAtIndex(emptyIndex);
+            return;
+        }
+    }
 
-    // Check for win/draw
-    if (checkWin()) {
-        gameOver = true;
-        updateTurnIndicator();
-        return;
-    } else if (checkDraw()) {
-        gameOver = true;
-        updateTurnIndicator();
+    // 3. Take the center if available
+    if (board[4] === '') {
+        playAtIndex(4);
         return;
     }
 
-    // Switch back to human
-    currentMark = 'X';
-    isComputerTurn = false;
-    currentPlayer = 'human';
-    updateTurnIndicator();
+    // 4. Take a corner if available
+    const corners = [0, 2, 6, 8];
+    const availableCorners = corners.filter(i => board[i] === '');
+    if (availableCorners.length > 0) {
+        playAtIndex(availableCorners[Math.floor(Math.random() * availableCorners.length)]);
+        return;
+    }
+
+    // 5. Pick a random empty cell
+    const emptyIndices = board.map((v, i) => v === '' ? i : null).filter(i => i !== null);
+    if (emptyIndices.length > 0) {
+        playAtIndex(emptyIndices[Math.floor(Math.random() * emptyIndices.length)]);
+    }
+
+    // Helper to play at a given index
+    function playAtIndex(index) {
+        const theme = themeSelector.value;
+        const rootStyles = getComputedStyle(document.documentElement);
+        const oColor = rootStyles.getPropertyValue(`--${theme}OColor`).trim();
+
+        const cell = cells[index];
+        cell.classList.add('occupied');
+        cell.textContent = 'O';
+        cell.style.pointerEvents = 'none';
+        cell.style.color = oColor;
+
+        // Check for win/draw
+        const winCombo = checkWin();
+        if (winCombo) {
+            gameOver = true;
+            highlightWinningCells(winCombo);
+            updateTurnIndicator();
+            return;
+        } else if (checkDraw()) {
+            gameOver = true;
+            updateTurnIndicator();
+            return;
+        }
+
+        // Switch back to human
+        currentMark = 'X';
+        isComputerTurn = false;
+        currentPlayer = 'human';
+        updateTurnIndicator();
+    }
 }
 
 // Event Listener for setting the current player theme
