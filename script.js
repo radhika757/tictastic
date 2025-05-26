@@ -9,6 +9,7 @@ const oplayer = document.getElementById('o-player');
 const player1 = document.getElementById('play1');
 const player2 = document.getElementById('play2');
 const turnIndicator = document.getElementById('turn-indicator');
+const replay = document.getElementById('replay');
 let currentPlayerName = "Player 1"
 let gameMode = 'human'; // 'human' for 2 players, 'computer' for vs computer
 let gameOver = false;
@@ -154,6 +155,7 @@ function resetGame() {
     currentMark = 'X'; // Reset to X
     isComputerTurn = false; // Reset computer turn
     currentPlayer = 'human'; // Reset to human player
+    hideTieCard();
     updateTurnIndicator();
 }
 
@@ -196,6 +198,9 @@ function handleCellClick(event) {
             gameOver = true;
         } else if (checkDraw()) {
             gameOver = true;
+            showTieCard();
+            updateTurnIndicator();
+            return;
         } else {
           // Switch turns
             if (gameMode === 'human') {
@@ -353,6 +358,21 @@ function makeComputerMove() {
         currentPlayer = 'human';
         updateTurnIndicator();
     }
+}
+
+replay.addEventListener('click', () => {
+    resetGame();
+    hideTieCard();
+})
+
+function showTieCard() {
+    document.getElementById('tie-card').style.display = 'block';
+    document.getElementById('tie-overlay').style.display = 'block';
+}
+
+function hideTieCard() {
+    document.getElementById('tie-card').style.display = 'none';
+    document.getElementById('tie-overlay').style.display = 'none';
 }
 
 // Event Listener for setting the current player theme
