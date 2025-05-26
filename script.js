@@ -164,6 +164,7 @@ function highlightWinningCells(combo) {
 
     combo.forEach(index => {
         cells[index].style.backgroundColor = winHighlight;
+        cells[index].classList.add('win');
     });
 }
 
